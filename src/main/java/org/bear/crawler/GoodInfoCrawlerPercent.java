@@ -12,6 +12,9 @@ import org.openqa.selenium.chrome.ChromeOptions;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 import org.openqa.selenium.JavascriptExecutor;
+/**
+ * GoodInfo的股權分配表
+ */
 public class GoodInfoCrawlerPercent extends ImportStockID
 {
 	private static final String DEBUG_HOST = "127.0.0.1";
@@ -27,7 +30,6 @@ public class GoodInfoCrawlerPercent extends ImportStockID
 	{
 		ApplicationContext context = new ClassPathXmlApplicationContext("config.xml");
 		StockDistributionDao dao = (StockDistributionDao)context.getBean("stockDistributionDao");	
-		//SSLSocketFactory sslsocketfactory = (SSLSocketFactory) SSLSocketFactory.getDefault();
 		List<String> stockList = new ArrayList<String>();
 		String STOCK_ID = "";
 		try
@@ -56,7 +58,6 @@ public class GoodInfoCrawlerPercent extends ImportStockID
 			{
 				System.out.println("Chrome Debug Mode已存在");
 			}
-
 			//
 			// Step 2.
 			// Attach Existing Chrome
@@ -68,11 +69,11 @@ public class GoodInfoCrawlerPercent extends ImportStockID
 			// Step 3.
 			// 開啟 GoodInfo
 			//
+			driver.get("https://goodinfo.tw/tw/EquityDistributionClassHis.asp?STOCK_ID=" + STOCK_ID);
+			Thread.sleep(3000);
 			for (int j = 0; j < stockList.size(); j++)
 			{
 				STOCK_ID = stockList.get(j);				
-				driver.get("https://goodinfo.tw/tw/EquityDistributionClassHis.asp?STOCK_ID=" + STOCK_ID);
-				Thread.sleep(3000);
     			//
     			// Step 4.
     			// 取得資料
@@ -105,13 +106,13 @@ public class GoodInfoCrawlerPercent extends ImportStockID
 				
 				String html = null;
 				for (int retry = 0; retry < 10; retry++)
-				{
-					Thread.sleep(1000);
+				{					
 					html = (String) ((JavascriptExecutor) driver).executeScript("return window.goodinfoResult;");
 				    if (html != null)
 				    {
 				        break;
 				    }
+				    Thread.sleep(2000);
 				}
     			//
     			// 5. Parser
