@@ -1,4 +1,7 @@
 package org.bear.crawler;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+
 import org.bear.util.StringUtil;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
@@ -15,7 +18,12 @@ public class BuildGoodInfoKd {
 	ApplicationContext context = new ClassPathXmlApplicationContext("config.xml");
 	public static void main(String[] args)
 	{
-		String[] date = {"115/08/28"};
+		//String[] date = {"115/08/28"};
+		SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd");
+		java.util.Date today = new Date();        
+		String dateString = dateFormat.format(today);
+		dateString = StringUtil.convertChineseYear(dateString.substring(0, 4)) + dateString.substring(4, 10);
+		String[] date = {dateString};
 		BuildGoodInfoKd trader = new BuildGoodInfoKd();
 		trader.update(date);
 	}
