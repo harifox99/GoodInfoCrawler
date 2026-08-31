@@ -27,7 +27,7 @@ public class RailwayTicket
 	{
 		System.out.println("請至少填2個參數，1. 日期, 2. 車次，日期格式為YYYY/MM/DD，預設為1張票");
 		System.out.println("或是6個參數，依序為1. 身分證, 2. 出發站, 3. 抵達站, 4. 搭車日期, 5. 車次, 6. 車票張數，日期格式為YYYY/MM/DD");
-		if (args.length != 2 || args.length != 6)
+		if (args.length != 2 && args.length != 6 && args.length != 0)
 		{
 			System.out.println("輸入格式錯誤，程式結束");
 			System.exit(0);
