@@ -74,7 +74,13 @@
 		    <groupId>com.microsoft.sqlserver</groupId>
 		    <artifactId>mssql-jdbc</artifactId>
 		    <version>12.8.1.jre11</version>
-		</dependency>		
+		</dependency>			    
+	
+	    <dependency>
+	        <groupId>io.github.bonigarcia</groupId>
+	        <artifactId>webdrivermanager</artifactId>
+	        <version>6.1.0</version>
+	    </dependency>
    	 	
     </dependencies>
 </project>
