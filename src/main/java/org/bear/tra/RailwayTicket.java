@@ -20,13 +20,14 @@ public class RailwayTicket
 	private static String PID = "A124776119";
 	private static String START_STATION = "1000-臺北";
 	private static String END_STATION = "4220-臺南";
-	private static String DATE = "";
+	private static String DATE = "2026/10/01";
 	private static String TRAIN_NO = "131";
 	private static String TICKET_COUNT = "1";
 	public static void main(String[] args) throws Exception
 	{
-		System.out.println("請至少填2個參數，1. 日期, 2. 車次，日期格式為YYYY/MM/DD，預設為1張票");
+		System.out.println("請至少填2個參數，1. 搭車日期, 2. 車次，日期格式為YYYY/MM/DD，預設為1張票");
 		System.out.println("或是6個參數，依序為1. 身分證, 2. 出發站, 3. 抵達站, 4. 搭車日期, 5. 車次, 6. 車票張數，日期格式為YYYY/MM/DD");
+		//A124776119 1000-臺北 4220-臺南 2026/09/02 131 2
 		if (args.length != 2 && args.length != 6 && args.length != 0)
 		{
 			System.out.println("輸入格式錯誤，程式結束");
