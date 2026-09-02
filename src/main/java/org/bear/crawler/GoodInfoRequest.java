@@ -17,9 +17,27 @@ public class GoodInfoRequest
 	private Set <String> kdGolden;
 	public GoodInfoRequest()
 	{
+		/*
 		ChromeOptions options = new ChromeOptions();
 		options.setExperimentalOption("debuggerAddress", "127.0.0.1:9222");
-		this.driver = new ChromeDriver(options);
+		this.driver = new ChromeDriver(options);*/
+		try
+		{
+			// Step 1.
+			// 檢查 9222 是否已啟動
+			if (!isDebugChromeRunning())
+			{
+				startChromeDebug();
+				Thread.sleep(3000);
+			}
+			ChromeOptions options = new ChromeOptions();
+			options.setExperimentalOption("debuggerAddress", "127.0.0.1:9222");
+			driver = new ChromeDriver(options);
+		}
+		catch (Exception e)
+		{
+			throw new RuntimeException(e);
+		}
 	}
 	public GoodInfoRequest(WebDriver driver)
 	{
@@ -40,21 +58,6 @@ public class GoodInfoRequest
 			{
 				url = "https://goodinfo.tw/tw/StockList.asp?RPT_TIME=&MARKET_CAT=%E6%99%BA%E6%85%A7%E9%81%B8%E8%82%A1&INDUSTRY_CAT=%E9%80%B1KD%E4%BD%8E%E6%96%BC20%E9%BB%83%E9%87%91%E4%BA%A4%E5%8F%89%40%40%E9%80%B1KD%E7%9B%B8%E4%BA%92%E4%BA%A4%E5%8F%89%40%40KD%E4%BD%8E%E6%96%BC20%E9%BB%83%E9%87%91%E4%BA%A4%E5%8F%89";
 			}
-			// Step 1.
-			// 檢查 9222 是否已啟動			
-			if (!isDebugChromeRunning())
-			{
-				System.out.println("Chrome Debug Mode未啟動，準備啟動...");
-				startChromeDebug();
-				//
-				// 等待 Chrome 啟動
-				//
-				Thread.sleep(5000);
-			}
-			else
-			{
-				System.out.println("Chrome Debug Mode已存在");
-			}
 			// Step 2.
 			// Attach Existing Chrome
 			System.out.println("GoodInfo Starting...");
@@ -66,7 +69,7 @@ public class GoodInfoRequest
 			// Step 4.
 			// 取得資料
 			String html = driver.getPageSource();
-			//System.out.println("html: " + html);
+			System.out.println("html: " + html);
 			parser.parse(html, dateString, isDay);
 			kdGolden = parser.getKdSet();
 			System.out.println("Parse Success");
