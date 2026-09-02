@@ -13,30 +13,43 @@ public class GoodInfoRequest
 	private static final String DEBUG_HOST = "127.0.0.1";
 	private static final int DEBUG_PORT = 9222;
 	private final WebDriver driver;
+	private static final String CHROME_PROFILE = "C:\\ChromeDebug";
 	private GoodInfoParser parser = new GoodInfoParser();
 	private Set <String> kdGolden;
+	/**
+	 * 
+	 */
 	public GoodInfoRequest()
 	{
-		/*
-		ChromeOptions options = new ChromeOptions();
-		options.setExperimentalOption("debuggerAddress", "127.0.0.1:9222");
-		this.driver = new ChromeDriver(options);*/
 		try
 		{
-			// Step 1.
-			// 檢查 9222 是否已啟動
 			if (!isDebugChromeRunning())
 			{
 				startChromeDebug();
-				Thread.sleep(3000);
+				boolean ok = false;
+				for (int i = 0; i < 10; i++)
+				{
+					if (isDebugChromeRunning())
+					{
+						ok = true;
+						break;
+					}
+					Thread.sleep(1000);
+				}
+				if (!ok)
+				{
+					throw new RuntimeException("Chrome Debug Mode 啟動失敗");
+				}
 			}
 			ChromeOptions options = new ChromeOptions();
-			options.setExperimentalOption("debuggerAddress", "127.0.0.1:9222");
+			options.setExperimentalOption("debuggerAddress", DEBUG_HOST + ":" + DEBUG_PORT);
 			driver = new ChromeDriver(options);
+			System.out.println("Chrome Debug Mode 連線成功");
+			System.out.println("Chrome Profile : " + CHROME_PROFILE);
 		}
 		catch (Exception e)
 		{
-			throw new RuntimeException(e);
+			throw new RuntimeException("初始化 ChromeDriver 失敗", e);
 		}
 	}
 	public GoodInfoRequest(WebDriver driver)
@@ -65,7 +78,7 @@ public class GoodInfoRequest
 			// Step 3.
 			// 開啟 GoodInfo
 			driver.get(url);
-			Thread.sleep(3000);
+			Thread.sleep(5000);
 			// Step 4.
 			// 取得資料
 			String html = driver.getPageSource();
@@ -96,12 +109,35 @@ public class GoodInfoRequest
 			return false;
 		}
 	}
+	
+    /**
+     * 
+     * @throws Exception
+     */
 	private void startChromeDebug() throws Exception
 	{
 		String chromePath = "C:\\Program Files\\Google\\Chrome\\Application\\chrome.exe";
-		ProcessBuilder pb = new ProcessBuilder(chromePath, "--remote-debugging-port=9222",
-				"--user-data-dir=C:\\ChromeDebug");
+		ProcessBuilder pb = new ProcessBuilder(chromePath, "--remote-debugging-port=" + DEBUG_PORT,
+				"--user-data-dir=" + CHROME_PROFILE, "--no-first-run", "--disable-default-apps");
 		pb.start();
 		System.out.println("Chrome Debug Mode 已啟動");
+	}
+
+	/**
+	 * 增加一個關閉 Chrome 的方法：
+	 */
+	public void close()
+	{
+		try
+		{
+			if (driver != null)
+			{
+				driver.quit();
+			}
+		}
+		catch (Exception e)
+		{
+			e.printStackTrace();
+		}
 	}
 }

@@ -37,10 +37,21 @@ public class BuildGoodInfoKd {
 			//String westenYear = westenDate;
 			westenDate = westenDate + "/" + dateArray[1] + "/" + dateArray[2];
 			//KD指標	
-			GoodInfoRequest request = new GoodInfoRequest();
-			request.conn(true, westenDate);
-			request.conn(false, westenDate);			
-			System.out.println(westenDate + " End!");			
+			GoodInfoRequest request = null;
+			try
+			{
+				request = new GoodInfoRequest();
+    			request.conn(true, westenDate);
+    			request.conn(false, westenDate);
+			}
+			finally
+			{
+				if (request != null)
+				{
+					request.close();
+				}
+    			System.out.println(westenDate + " End!");	
+			}
 		}
 	}
 }
