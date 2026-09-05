@@ -22,7 +22,8 @@ public class BuildGoodInfoKd {
 		SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd");
 		java.util.Date today = new Date();        
 		String dateString = dateFormat.format(today);
-		dateString = StringUtil.convertChineseYear(dateString.substring(0, 4)) + dateString.substring(4, 10);
+		//dateString = StringUtil.convertChineseYear(dateString.substring(0, 4)) + dateString.substring(4, 10);
+		dateString = "115/09/04";
 		String[] date = {dateString};
 		BuildGoodInfoKd trader = new BuildGoodInfoKd();
 		trader.update(date);
