@@ -18,12 +18,11 @@ public class BuildGoodInfoKd {
 	ApplicationContext context = new ClassPathXmlApplicationContext("config.xml");
 	public static void main(String[] args)
 	{
-		//String[] date = {"115/08/28"};
 		SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd");
 		java.util.Date today = new Date();        
 		String dateString = dateFormat.format(today);
-		//dateString = StringUtil.convertChineseYear(dateString.substring(0, 4)) + dateString.substring(4, 10);
-		dateString = "115/09/04";
+		dateString = StringUtil.convertChineseYear(dateString.substring(0, 4)) + dateString.substring(4, 10);
+		//dateString = "115/09/04";
 		String[] date = {dateString};
 		BuildGoodInfoKd trader = new BuildGoodInfoKd();
 		trader.update(date);
